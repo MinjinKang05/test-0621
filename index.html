@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Portfolio - 민진</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- ✅ Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <style>
+    
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --dark-bg: #0a0a0a;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--dark-bg);
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      padding: 15px 25px;
+      display: flex;
+      gap: 30px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-btn {
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-gradient);
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+      border-radius: 25px;
+    }
+
+    .nav-btn:hover::before,
+    .nav-btn.active::before {
+      left: 0;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 8rem);
+      font-weight: 800;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-primary {
+      background: var(--primary-gradient);
+      color: white;
+    }
+
+    .cta-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 2px solid var(--border-color);
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      backdrop-filter: blur(10px);
+      animation: floatElement 6s ease-in-out infinite;
+    }
+
+    .floating-element:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floating-element:nth-child(2) {
+      top: 60%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+
+    .floating-element:nth-child(3) {
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+
+    @keyframes floatElement {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(180deg); }
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 80px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* About Section */
+    .about {
+      background: linear-gradient(135deg, rgba(16, 16, 16, 0.8) 0%, rgba(26, 26, 26, 0.8) 100%);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .profile-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .profile-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      background: var(--secondary-gradient);
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .profile-role {
+      color: var(--text-secondary);
+      margin-bottom: 25px;
+      font-size: 16px;
+    }
+
+    .contact-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .contact-badge {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+
+    .contact-badge:hover {
+      background: var(--primary-gradient);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .about-content h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .about-content p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .skill-tag {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .skill-tag:hover {
+      background: var(--accent-gradient);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Portfolio Section */
+    .portfolio {
+      background: var(--dark-bg);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .portfolio-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    .portfolio-image {
+      height: 250px;
+      background: var(--secondary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+
+    .portfolio-card:hover .portfolio-image::before {
+      left: 100%;
+    }
+
+    .portfolio-info {
+      padding: 25px;
+    }
+
+    .portfolio-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .portfolio-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .portfolio-banner {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      padding: 60px 40px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .portfolio-banner p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+    }
+
+    .portfolio-actions {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Process Section */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .process-item {
+      text-align: center;
+      padding: 30px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .process-item:hover {
+      transform: translateY(-10px);
+      background: var(--glass-bg);
+    }
+
+    .process-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .process-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .process-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Contact Section */
+    .contact {
+      background: linear-gradient(135deg, rgba(16, 16, 16, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-content h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: var(--secondary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact-content p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+.nav-btn.active {
+  color: #fff;
+  background: var(--primary-gradient); /* 또는 너가 설정한 포인트 색상 */
+  transform: translateY(-2px);
+}
+
+
+    .contact-visual {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    /* Scroll Up Button */
+    .scroll-up {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      font-size: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+    }
+
+    .scroll-up.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-up:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(10, 10, 10, 0.95);
+      padding: 60px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        gap: 15px;
+        padding: 12px 20px;
+      }
+
+      .nav-btn {
+        padding: 10px 15px;
+        font-size: 13px;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-btn {
+        width: 200px;
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-gradient);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-gradient);
+    }
+
+    /* Cursor Effects */
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: var(--primary-gradient);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.1s ease;
+    }
+
+    .cursor-follower {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    #typing-text {
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 800;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  white-space: pre-line;
+}
+
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.1s ease;
+}
+
+.cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.reveal-item.show {
+  opacity: 1 !important;
+  transform: translateY(0px) !important;
+  transition: all 0.6s ease-out;
+}
+
+.portfolio-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px; /* 모서리를 둥글게 하고 싶으면 */
+}
+
+.contact-visual {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.contact-visual span {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.contact-image {
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden; /* 핵심 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-gradient);
+  margin: 0 auto 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 도형에 꽉 차게 */
+  object-position: center;
+  display: block;
+}
+
+.portfolio-card {
+  color: inherit;
+  text-decoration: none;
+}
+.portfolio-card .portfolio-title,
+.portfolio-card .portfolio-desc {
+  color: inherit;
+}
+
+.contact-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 20px; /* ← 기존 10px → 20px 으로 더 부드럽게 */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.contact-image:hover {
+  transform: scale(1.03);
+}
+
+.floating-portfolio-btn {
+  position: fixed;
+  bottom: 80px; /* 화면 아래에서 80px 떨어짐 */
+  right: 40px;  /* 화면 오른쪽에서 40px 떨어짐 */
+  z-index: 999;
+  animation: floatUpDown 3s ease-in-out infinite;
+}
+
+.floating-right-btn {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 999;
+  padding: 10px;
+  background: var(--primary-gradient);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.floating-right-btn:hover {
+  transform: translateY(-50%) translateX(-5px);
+}
+
+.floating-right-btn .cta-btn {
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.floating-portfolio-btn .cta-btn {
+  padding: 14px 28px;
+  font-size: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floating-portfolio-btn {
+  position: fixed;
+  bottom: 100px; /* 화면 하단에서 위치 조절 */
+  right: 40px;
+  z-index: 1000;
+  animation: floatBtn 3s ease-in-out infinite;
+}
+
+.floating-portfolio-btn .cta-btn {
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes floatBtn {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.nav-btn.active {
+  background: var(--primary-gradient); /* 그라데이션 적용 */
+  color: white;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+#portfolio {
+  min-height: 100vh;
+  padding: 100px 0;
+}
+
+.nav-btn.active {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+.swiper-slide {
+ width: 240px; /* 💡 기존보다 조금 작게 */
+  height: 340px;
+  margin-right: 0; /* 간격 추가로 조절 필요 시 여기 설정 */
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  width: 280px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.imgBx {
+  height: 400px;
+  overflow: hidden;
+}
+.imgBx img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail {
+  padding: 20px;
+  text-align: center;
+}
+.detail h3 {
+  font-size: 18px;
+  margin: 0;
+}
+.detail h3 span {
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 5px;
+}
+
+.swiper-slide {
+  width: 240px; /* 💡 기존보다 조금 작게 */
+  height: 340px;
+  margin-right: 0; /* 간격 추가로 조절 필요 시 여기 설정 */
+}
+
+
+  </style>
+</head>
+<body>
+  
+  <!-- Animated Background -->
+  <div class="bg-animation"></div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-container">
+  <button class="nav-btn" data-target="home">Home</button>
+  <button class="nav-btn" data-target="about">About</button>
+ <button class="nav-btn" data-target="portfolio">Portfolio</button>
+  <button class="nav-btn" data-target="contact">Contact</button>
+</nav>
+
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    
+    <div class="hero-content">
+      <h1 class="hero-title" id="typing-text"></h1>
+      <p class="hero-subtitle">혁신적인 디자인으로 브랜드의 가치를 창조합니다</p>
+      <div class="hero-cta">
+        <button class="cta-btn cta-primary">포트폴리오 보기</button>
+        <button class="cta-btn cta-secondary">연락하기</button>
+      </div>
+    </div>
+  </section>
+
+ <section id="about" class="section about scrollmagic">
+  <div class="container">
+    <h2 class="section-title reveal-item">About Me</h2>
+
+    <div class="about-grid">
+      <!-- 프로필 카드 -->
+      <div class="profile-card reveal-item">
+        <div class="profile-avatar">
+          <img src="image/1694497605560.jpg" alt="강민진 프로필 이미지" />
+        </div>
+        <div class="profile-name">강민진</div>
+        <div class="profile-role">UI/UX Designer & Creative Director</div>
+        <div class="contact-badges">
+          <div class="contact-badge reveal-item">📧 Email</div>
+          <div class="contact-badge reveal-item">💼 Portfolio</div>
+          <div class="contact-badge reveal-item">💬 Contact</div>
+        </div>
+      </div>
+
+      <!-- 자기소개 및 스킬 -->
+      <div class="about-content reveal-item">
+        <h3 class="reveal-item">디자인 철학</h3>
+        <p class="reveal-item">사용자 중심의 창의적 사고로 복잡한 문제를 단순하고 직관적인 해결책으로 변환합니다.</p>
+        <p class="reveal-item">브랜드의 정체성을 강화하는 일관된 디자인 시스템을 구축하고, 감성을 자극하는 시각적 경험을 설계합니다.</p>
+
+        <div class="skills-grid">
+          <div class="skill-tag reveal-item">UI/UX Design</div>
+          <div class="skill-tag reveal-item">Branding</div>
+          <div class="skill-tag reveal-item">Visual Design</div>
+          <div class="skill-tag reveal-item">Prototyping</div>
+          <div class="skill-tag reveal-item">Design System</div>
+          <div class="skill-tag reveal-item">Motion Design</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" class="section portfolio scrollmagic">
+  <div class="container">
+    <h2 class="section-title reveal-item">Portfolio</h2>
+
+    <div class="portfolio-grid">
+  <!-- 모바일 앱 디자인 -->
+  <a href="https://www.figma.com/design/V3w5m7xiVtrT30R51Gtf6g/UI-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80?node-id=0-1&p=f&t=h8blHVdpz7qymdkF-0" target="_blank" class="portfolio-card reveal-item">
+    <div class="portfolio-image">
+      <img src="image/128744_167349_646 (1).jpg" alt="모바일 앱 디자인 예시" />
+    </div>
+    <div class="portfolio-info">
+      <div class="portfolio-title">모바일 앱 디자인</div>
+      <div class="portfolio-desc">사용자 경험을 중심으로 한 직관적인 모바일 인터페이스 설계</div>
+    </div>
+  </a>
+
+  <!-- 브랜드 아이덴티티 -->
+  <a href="https://apple-glitter-3b5.notion.site/1cf768f36af280e289ded1a1618a9dd3?source=copy_link" target="_blank" class="portfolio-card reveal-item">
+    <div class="portfolio-image">
+      <img src="image/0D.39514001.1.jpg" alt="브랜드 아이덴티티 예시" />
+    </div>
+    <div class="portfolio-info">
+      <div class="portfolio-title">브랜드 상세페이지</div>
+      <div class="portfolio-desc">기업의 핵심 가치를 반영한 통합 브랜드 시스템 구축</div>
+    </div>
+  </a>
+
+  <!-- 웹사이트 리뉴얼 -->
+  <a href="https://minjinkang05.github.io/test_0602/" target="_blank" class="portfolio-card reveal-item">
+    <div class="portfolio-image">
+      <img src="image/스크린샷 2025-06-08 221943.png" alt="웹사이트 리뉴얼 예시" />
+    </div>
+    <div class="portfolio-info">
+      <div class="portfolio-title">웹사이트 리뉴얼</div>
+      <div class="portfolio-desc">현대적 감각과 사용성을 결합한 반응형 웹 디자인</div>
+    </div>
+  </a>
+
+  <!-- 여행 홍보 웹 배너 디자인 -->
+<a href="https://www.youtube.com/@picturestory-v6x" target="_blank" class="portfolio-card reveal-item">
+  <div class="portfolio-image">
+    <img src="image/569769_533645_4956.jpg" alt="여행 웹 배너 디자인 예시" />
+  </div>
+  <div class="portfolio-info">
+    <div class="portfolio-title">유튜브 콘텐츠 </div>
+    <div class="portfolio-desc"> 유튜브를 통해 자신만의 브랜드와 콘텐츠를 동시에 구축</div>
+  </div>
+</a>
+
+</div>
+
+    <div class="portfolio-banner reveal-item">
+      <p>각 프로젝트는 고유한 스토리와 창의적 솔루션을 담고 있습니다.</p>
+      <div class="portfolio-actions">
+        <button class="cta-btn cta-primary reveal-item">전체 포트폴리오</button>
+        <button class="cta-btn cta-secondary reveal-item">프로젝트 문의</button>
+      </div>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-item reveal-item">
+        <div class="process-icon">📋</div>
+        <div class="process-title">전략 수립</div>
+        <div class="process-desc">프로젝트 목표와 사용자 니즈 분석을 통한 디자인 전략 구성</div>
+      </div>
+      <div class="process-item reveal-item">
+        <div class="process-icon">🎨</div>
+        <div class="process-title">시각 디자인</div>
+        <div class="process-desc">브랜드 정체성을 반영한 창의적이고 일관된 시각적 표현</div>
+      </div>
+      <div class="process-item reveal-item">
+        <div class="process-icon">💡</div>
+        <div class="process-title">창의적 솔루션</div>
+        <div class="process-desc">혁신적 아이디어를 실용적 디자인으로 구현하는 창조적 접근</div>
+      </div>
+      <div class="process-item reveal-item">
+        <div class="process-icon">⚡</div>
+        <div class="process-title">빠른 실행</div>
+        <div class="process-desc">효율적 워크플로우와 애자일 방법론을 통한 신속한 결과 도출</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<section id="contact" class="section contact scrollmagic">
+  <div class="container">
+    <h2 class="section-title reveal-item">Contact</h2>
+
+    <div class="contact-grid">
+      <div class="contact-content reveal-item">
+        <h3 class="reveal-item">함께 만들어가요</h3>
+        <p class="reveal-item"><strong>새로운 도전과 실험</strong></p>
+        <p class="reveal-item">실제 사용자 환경에서 발생하는 문제를 창의적으로 해결하고, 디자인의 경계를 넓혀가는 것이 저의 열정입니다.</p>
+        <p class="reveal-item">혁신적인 프로젝트나 협업 기회에 대해 언제든 연락 주세요. 함께 특별한 것을 만들어봅시다.</p>
+      </div>
+
+      
+     <div class="contact-visual reveal-item">
+  <!-- 연락처 제목 텍스트 -->
+
+  <!-- 이미지 추가 -->
+  <img src="image/img.png" alt="연락처 이미지" class="contact-image" />
+</div>
+    </div>
+  </div>
+</section>
+
+<div class="swiper mySwiper reveal-item" style="margin-top: 60px;">
+  <div class="swiper-wrapper">
+    <!-- 카드 1 -->
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="image/images.png" alt="민진이" />
+      </div>
+      <div class="detail">
+        <h3>X<br><span>브랜드 경험 설계자</span></h3>
+      </div>
+    </div>
+
+    <!-- 카드 2 -->
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="image/Adobe_Illustrator_CC_icon.svg.png" alt="에반" />
+      </div>
+      <div class="detail">
+       <h3>일러스트<br><span>개성을 그리는 손끝</span></h3>
+      </div>
+    </div>
+
+    <!-- 카드 3 -->
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="image/free-icon-premiere-pro-5968525.png" alt="레미엘" />
+      </div>
+      <div class="detail">
+        <h3>프리미어<br><span>스토리 흐름의 편집가</span></h3>
+      </div>
+    </div>
+
+    <!-- 카드 4 -->
+    <div class="swiper-slide">
+      <div class="imgBx">
+        <img src="image/L4QkiE5fab-8lwIMRpmFHBoFAYl6tuoyFW7AmzyeevWPAoUlz0GPAzqjwGsPiY49-0IZG8zBBgklwRKA9aaBj-uOsqhB6wLky-QlQraPmeZPxZHqLa2UHGlqSFZ57nF_Xj4tTKChLe6wkwWLCqbUbg.svg" alt="릴리" />
+      </div>
+      <div class="detail">
+        <h3>에펙<br><span>움직임으로 감정을 입히다</span></h3>
+      </div>
+    </div>
+    <!-- 카드 5 -->
+<div class="swiper-slide">
+  <div class="imgBx">
+    <img src="image/Adobe_InDesign_CC_icon.svg.png" alt="하윤" />
+  </div>
+  <div class="detail">
+    <h3>인디자인<br><span>정보를 구조화하는 설계자</span></h3>
+  </div>
+</div>
+
+<!-- 카드 6 -->
+<div class="swiper-slide">
+  <div class="imgBx">
+    <img src="image/Instagram_logo_2022.svg.webp" alt="이안" />
+  </div>
+  <div class="detail">
+    <h3>인스타그램<br><span>트렌드를 읽는 감각</span></h3>
+  </div>
+</div>
+
+<!-- 카드 7 -->
+<div class="swiper-slide">
+  <div class="imgBx">
+    <img src="image/unnamed.webp" alt="하진" />
+  </div>
+  <div class="detail">
+    <h3>유튜브<br><span>사용자 경험의 흐름을 설계하다</span></h3>
+  </div>
+</div>
+
+<!-- 카드 8 -->
+<div class="swiper-slide">
+  <div class="imgBx">
+    <img src="image/sb8ETQWSuf1-ZPvkbCa13HLLm788d4touEO4kPFtZp_DCqBIXp3moSy67NL8qdZAJSotQ-SSr8F7klWlQfz0JA.svg" alt="소연" />
+  </div>
+  <div class="detail">
+    <h3>틱톡<br><span>찰나의 순간을 설계하는 감각</span></h3>
+  </div>
+</div>
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+
+
+  <!-- Scroll Up Button -->
+  <button class="scroll-up">
+    <span class="material-symbols-outlined">keyboard_arrow_up</span>
+  </button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 민진 Design Portfolio</p>
+      <p>디자인을 통해 세상을 더 아름답게 만드는 여정</p>
+    </div>
+  </footer>
+  
+</html>
+<!-- ScrollMagic & GSAP Plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+
+<script>
+// 1. 스크롤 이동 기능
+const navButtons = document.querySelectorAll('.nav-btn');
+navButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const targetId = button.getAttribute('data-target');
+    const targetSection = document.getElementById(targetId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+  });
+});
+
+// 2. IntersectionObserver - 메뉴 자동 활성화
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-target') === id);
+      });
+    }
+  });
+}, {
+  threshold: 0.5, // 화면에 절반 이상 보이면 반응
+  rootMargin: '-100px 0px -100px 0px' // 위아래 여유
+});
+sections.forEach(section => observer.observe(section));
+
+// 3. 포트폴리오 애니메이션
+const controller = new ScrollMagic.Controller();
+document.querySelectorAll('.scrollmagic').forEach(section => {
+  const items = section.querySelectorAll('.reveal-item');
+  const tween = gsap.fromTo(items,
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.15 }
+  );
+  new ScrollMagic.Scene({
+    triggerElement: section,
+    triggerHook: 0.6,
+    reverse: false
+  })
+  .setTween(tween)
+  .addTo(controller);
+});
+
+// 4. reveal 효과
+const revealItems = document.querySelectorAll('.reveal-item');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.2 });
+revealItems.forEach(item => revealObserver.observe(item));
+
+// 5. 타이핑 효과
+const text = "DESIGN\nPORTFOLIO";
+const target = document.getElementById("typing-text");
+let index = 0;
+function typeChar() {
+  if (index < text.length) {
+    const char = text[index];
+    target.innerHTML += (char === "\n") ? "<br>" : char;
+    index++;
+    setTimeout(typeChar, 80);
+  }
+}
+window.addEventListener("load", typeChar);
+
+// 6. 마우스 커서 효과
+const cursor = document.querySelector('.cursor');
+const cursorFollower = document.querySelector('.cursor-follower');
+document.addEventListener('mousemove', (e) => {
+  gsap.to(cursor, {
+    x: e.clientX - 10,
+    y: e.clientY - 10,
+    duration: 0.1,
+    opacity: 1
+  });
+  gsap.to(cursorFollower, {
+    x: e.clientX - 20,
+    y: e.clientY - 20,
+    duration: 0.3,
+    opacity: 0.6
+  });
+});
+document.addEventListener('mouseleave', () => {
+  gsap.to([cursor, cursorFollower], { opacity: 0, duration: 0.3 });
+});
+
+
+
+ var swiper = new Swiper(".mySwiper", {
+  effect: "coverflow",
+  grabCursor: true,
+  centeredSlides: true,
+  slidesPerView: "auto",
+  loop: true,
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: false,
+  },
+  coverflowEffect: {
+    rotate: 30,
+    stretch: -50,       // 💡 간격 좁히기: -50~0 사이로 줄여봐
+    depth: 150,
+    modifier: 1,
+    slideShadows: true,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+  },
+});
+
+
+
+</script>
+
+
+
+</body>
+</html>
